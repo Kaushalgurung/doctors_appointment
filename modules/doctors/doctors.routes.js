@@ -31,7 +31,7 @@ const routes = {
 
 function register(app) {
   app.register({
-    name: 'Doctors',
+    name: 'doctors',
     routes,
     validators,
     controllers,

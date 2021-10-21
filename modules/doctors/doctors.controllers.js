@@ -1,9 +1,9 @@
 const DoctorModel = require('./doctors.model')
+const DataUtils  = require('../../helpers/data');
 
 const Doctor = {
     async add(data) {
-        await this.register(data);
-        return this.approve(data.address);
+        return await this.register(data);
     },
     async list(start, limit, from) {
         const $match = { is_archived: false };
@@ -39,7 +39,7 @@ module.exports = {
       const start = req.query.start || 0;
       const limit = req.query.limit || 20;
       const from = req.query.from || null;
-      return doctor.list(start, limit, from);
+      return Doctor.list(start, limit, from);
     },
     getById: (req) => Doctor.getById(req.params.id),
     register: (req) => Doctor.register(req.payload),

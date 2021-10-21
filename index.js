@@ -5,7 +5,7 @@ const path = require('path');
 const Vision = require('@hapi/vision');
 const HapiSwagger = require('hapi-swagger');
 const app = require('./app');
-const registerFeat = require('./boot/register-modules')
+const registerFeats = require('./boot/register-modules')
 
 const port = 4000;
 
