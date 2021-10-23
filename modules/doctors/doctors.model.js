@@ -12,6 +12,8 @@ const schema = {
   phone: { type: String, description: "Doctor's phone" },
   email: { type: String, joi: Joi.string().email().optional().description("Doctor's email") },
   address: { type: String, description: "Doctor's hpermanent address" },
+  designation: { type: String, description: "Doctor's designation" },
+  description: { type: String, description: "Doctor's description" },
   ...commonSchema,
 };
 
