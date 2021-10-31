@@ -81,8 +81,7 @@ class App {
   async handle(operation, request, h) {
     const fn = operation.controller || this.defaultHandle;
     try {
-      if (operation.permissions) {
-      console.log("im here");
+      if (operation.permissions.length >0) {
         const isAllowed = await Secure(operation.permissions, request);
         if (!isAllowed) {
           return h

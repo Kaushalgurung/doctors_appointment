@@ -56,7 +56,7 @@ const Admin= {
         try{
             const {email, password} = data;
             if (!(email && password)) {
-                return "All input is required";
+                throw "All input is required";
             }
             const user = await AdminModel.findOne({ email });
             if (user) {
@@ -72,13 +72,16 @@ const Admin= {
                     return user;
                 }
                 else{
-                    throw "Invalid status";
+                    throw "Invalid password";
                 }
+            }
+            else{
+                throw "Invalid email or password";
             }
 
         } catch (err) {
             console.log(err)
-            return err;
+            throw err;
         }
     },
 
