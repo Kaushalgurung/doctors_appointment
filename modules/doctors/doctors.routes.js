@@ -2,18 +2,6 @@ const controllers = require('./doctors.controllers');
 const validators = require('./doctors.validators');
 
 const routes = {
-  add: {
-    method: 'POST',
-    path: '',
-    description: 'Add and register doctor',
-    uploadPayload: {
-      output: 'stream',
-      parse: true,
-      multipart: true,
-      allow: 'multipart/form-data',
-    },
-  },
-
   list: ['GET', '', 'List all Doctor', ],
   register: {
     method: 'POST',

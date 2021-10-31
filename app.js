@@ -1,5 +1,7 @@
 //const Secure = require('./helpers/utils/secure');
 
+const Secure = require("./helpers/secure");
+
 
 /**
  * Class for the application.
@@ -80,7 +82,8 @@ class App {
     const fn = operation.controller || this.defaultHandle;
     try {
       if (operation.permissions) {
-        const isAllowed = true;
+      console.log("im here");
+        const isAllowed = await Secure(operation.permissions, request);
         if (!isAllowed) {
           return h
             .response({
