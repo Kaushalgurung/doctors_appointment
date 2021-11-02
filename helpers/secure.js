@@ -1,6 +1,4 @@
-const { User } = require('../modules/admin/admin.controllers');
-const jwt = require('jsonwebtoken');
-
+const { Admin } = require('../modules/admin/admin.controllers');
 
 const Secure = async (reoutePermissions, req) => {
   if (reoutePermissions.length === 0) return true;
@@ -9,8 +7,8 @@ const Secure = async (reoutePermissions, req) => {
   if (!token) throw Error('No access token was sent');
 
   try {
-    const decoded = jwt.verify(token, process.env.TOKEN_KEY);
-    return decoded.is_admin;
+    const decoded = Admin.verifyToken(token);
+    return decoded;
   } catch (e) {
     return false;
   }

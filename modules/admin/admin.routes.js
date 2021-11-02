@@ -27,6 +27,7 @@ const routes = {
     },
   },
   archive: ['DELETE', '/{id}', 'Archive the Admin'],
+  verifyToken: ['GET', '/validate/{token}', 'Verify Token'],
 };
 
 function register(app) {

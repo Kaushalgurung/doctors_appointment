@@ -23,6 +23,14 @@ const Doctor = {
     },
 
     async register(data) {
+        const user = await DoctorModel.findOne({email: data.email})
+        if(user){
+            throw {message :"Email already registered", code: 400};
+        }
+        const user1 = await DoctorModel.findOne({phone: data.phone})
+        if(user1){
+            throw {message :"Phone already registered", code: 400};
+        }
         return await DoctorModel.create(data);
     },
 

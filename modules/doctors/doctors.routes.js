@@ -13,6 +13,7 @@ const routes = {
       multipart: true,
       allow: 'multipart/form-data',
     },
+    permissions: ["ADMIN"],
   },
   archive: ['DELETE', '/{id}', 'Archive the Doctor'],
 };

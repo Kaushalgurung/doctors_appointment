@@ -24,6 +24,17 @@ const Admin= {
     async getById(_id) {
         return AdminModel.findOne({ _id, is_archived: false });
     },
+    async verifyToken (data){
+        const token = data;
+        const decoded = jwt.verify(token, process.env.TOKEN_KEY);
+        console.log(decoded);
+        const user = await AdminModel.findOne({ email: decoded.email });
+        if (user) {
+            return user.is_admin;
+        } else {
+            return false;
+        }
+    },
 
     async register(data) {
         const {email, password } =  data;
@@ -64,23 +75,20 @@ const Admin= {
                     const token = jwt.sign(
                         {user_id : user._id, email, is_admin: user.is_admin},
                         process.env.TOKEN_KEY,
-                        {
-                            expiresIn:"2h",
-                        }
                     );
                     user.token = token;
-                    return user;
+                    return { token, email,  user_id :  user._id}
+                    //return user;
                 }
                 else{
-                    throw "Invalid password";
+                    throw {message :"Invalid password", code: 400};
                 }
             }
             else{
-                throw "Invalid email or password";
+                throw {message :"Invalid Email or password", code: 400};
             }
 
         } catch (err) {
-            console.log(err)
             throw err;
         }
     },
@@ -104,4 +112,5 @@ module.exports = {
     register: (req) =>Admin.register(req.payload),
     login: (req) =>Admin.login(req.payload),
     archive: (req) => Admin.archive(req.params.id),
+    verifyToken: (req) => Admin.verifyToken(req.params.token),
   };

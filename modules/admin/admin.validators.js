@@ -23,4 +23,9 @@ module.exports = {
       id: Joi.objectId(),
     }),
   },
+  verifyToken: {
+    params: Joi.object({
+      token: Joi.string(),
+    }),
+  },
 };

@@ -109,14 +109,13 @@ class App {
       return result;
       // return this.database.processResponse(result);
     } catch (error) {
-      console.log(`main error captured: ${error}`);
       if (process.env.ENV_TYPE === 'development')
         return h
-          .response({ statusCode: 500, error: 'Server Error', message: error.message })
+          .response({ statusCode: error.code, error: 'Server Error', message: error.message })
           .code(500);
       return h
-        .response({ statusCode: 500, error: 'Server Error', message: error.message })
-        .code(500);
+        .response({ statusCode: error.code, error: 'Server Error', message: error.message })
+        .code(error.code || 500);
     }
   }
 
