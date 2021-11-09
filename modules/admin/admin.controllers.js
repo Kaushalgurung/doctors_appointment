@@ -3,6 +3,7 @@ require('dotenv').config('/.env');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const DataUtils  = require('../../helpers/data');
+const { rawListeners } = require('npmlog');
 
 const Admin= {
     async add(data) {
@@ -27,12 +28,30 @@ const Admin= {
     async verifyToken (data){
         const token = data;
         const decoded = jwt.verify(token, process.env.TOKEN_KEY);
-        console.log(decoded);
         const user = await AdminModel.findOne({ email: decoded.email });
         if (user) {
             return user.is_admin;
         } else {
             return false;
+        }
+    },
+    async changePassword(req){
+        token = req.headers.access_token;
+        const { oldPassword,newPassword} = req.payload;
+        const decoded = jwt.verify(token, process.env.TOKEN_KEY);
+        const user = await AdminModel.findOne({ email: decoded.email });
+        if (user) {
+            try{
+                const res = await this.login({email: user.email, password: oldPassword});
+                const salt = parseInt(process.env.TOKEN_KEY);
+                encrypted_password = await bcrypt.hash(newPassword, salt);
+                return await AdminModel.findOneAndUpdate({email: res.email},{password: encrypted_password});
+            }catch(err){
+                console.log(err);
+                throw err;
+            }
+        } else {
+            throw {message: "Token not correct please login and try again!", code:400};
         }
     },
 
@@ -113,4 +132,5 @@ module.exports = {
     login: (req) =>Admin.login(req.payload),
     archive: (req) => Admin.archive(req.params.id),
     verifyToken: (req) => Admin.verifyToken(req.params.token),
+    changePassword:(req)=>Admin.changePassword(req)
   };
