@@ -37,10 +37,10 @@ const Appointment = {
 
   async register(data) {
     const user = await AppointmentModel.findOne({ email: data.email });
+    const user1 = await AppointmentModel.findOne({ phone: data.phone });
     if (user) {
       throw { message: "Email already registered", code: 400 };
     }
-    const user1 = await AppointmentModel.findOne({ phone: data.phone });
     if (user1) {
       throw { message: "Phone already registered", code: 400 };
     }
@@ -60,10 +60,22 @@ const Appointment = {
     }
   },
 
+  async approve(id) {
+    return AppointmentModel.findOneAndUpdate(
+      { _id: id, is_archived: false },
+      { approved: true }
+    );
+  },
   async archive(id) {
     return AppointmentModel.findOneAndUpdate(
       { _id: id, is_archived: false },
       { is_archived: true }
+    );
+  },
+  async complete(id) {
+    return AppointmentModel.findOneAndUpdate(
+      { _id: id, is_archived: false },
+      { completed: true }
     );
   },
 };
@@ -90,4 +102,6 @@ module.exports = {
   getById: (req) => Appointment.getById(req.params.id),
   register: (req) => Appointment.register(req.payload),
   archive: (req) => Appointment.archive(req.params.id),
+  approve: (req) => Appointment.approve(req.params.id),
+  complete: (req) => Appointment.complete(req.params.id),
 };

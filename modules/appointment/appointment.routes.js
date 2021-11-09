@@ -35,12 +35,12 @@ const routes = {
   approve: {
     method: "PUT",
     path: "/approve/{id}",
-    uploadPayload: {
-      output: "stream",
-      parse: true,
-      multipart: true,
-      allow: "multipart/form-data",
-    },
+    description: "Approve a appointment",
+    permissions: ["admin"],
+  },
+  complete: {
+    method: "PUT",
+    path: "/complete/{id}",
     description: "Approve a appointment",
     permissions: ["admin"],
   },

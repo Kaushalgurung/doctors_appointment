@@ -10,13 +10,27 @@ const schema = {
     description: "Patient's name",
   },
   doctor_id: { type: String, description: "Doctor's id", required: true },
+  approved: {
+    type: Boolean,
+    description: "appointment approved",
+    default: false,
+  },
   gender: {
     type: String,
-    joi: Joi.string().email().optional().description("Doctor's email"),
-    unique: true,
+    description: "Patient's gender",
+    unique: false,
+    default: "Male",
   },
-  email: { type: String, description: "Patient's email" },
-  phone: { type: String, description: "Patient's phone number" },
+  completed: {
+    type: Boolean,
+    description: "appointment completed",
+    default: false,
+  },
+  email: {
+    type: String,
+    joi: Joi.string().email().optional().description("Patient's email"),
+  },
+  phone: { type: Number, description: "Patient's phone number" },
   medical_problem: {
     type: String,
     description: "Description of medical problem",

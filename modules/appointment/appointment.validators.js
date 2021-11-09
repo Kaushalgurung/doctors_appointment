@@ -38,6 +38,11 @@ module.exports = {
       id: Joi.objectId(),
     }),
   },
+  complete: {
+    params: Joi.object({
+      id: Joi.objectId(),
+    }),
+  },
   getByDoctorId: {
     params: Joi.object({
       doctor_id: Joi.objectId(),
