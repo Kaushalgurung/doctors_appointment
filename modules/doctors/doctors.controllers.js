@@ -33,6 +33,22 @@ const Doctor = {
         }
         return await DoctorModel.create(data);
     },
+    async update(id, data) {
+        const user = await DoctorModel.findById(id);
+        const user2 = await DoctorModel.findOne({email : data.email});
+        if(!user){
+            throw{message: "User not found", code: 4000}
+        }
+        else if(data.email == user.email){
+            return await DoctorModel.findByIdAndUpdate(id, data);
+        }
+        else if(user2){
+            throw{message: "Dublicate email", code: 4000}
+        }
+        else{
+            return await DoctorModel.findByIdAndUpdate(id, data);
+        }
+    },
 
     async archive(id) {
         return DoctorModel.findOneAndUpdate({ _id: id, is_archived: false }, { is_archived: true });
@@ -48,6 +64,9 @@ module.exports = {
       const limit = req.query.limit || 20;
       const from = req.query.from || null;
       return Doctor.list(start, limit, from);
+    },
+    update:(req)=>{
+        return Doctor.update(req.params.id, req.payload)
     },
     getById: (req) => Doctor.getById(req.params.id),
     register: (req) => Doctor.register(req.payload),

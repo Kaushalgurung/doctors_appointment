@@ -6,7 +6,7 @@ const routes = {
   register: {
     method: 'POST',
     path: '/register',
-    description: 'Add Doctor',
+    description: 'Update',
     uploadPayload: {
       output: 'stream',
       parse: true,
@@ -15,7 +15,24 @@ const routes = {
     },
     permissions: ["ADMIN"],
   },
-  archive: ['DELETE', '/{id}', 'Archive the Doctor'],
+  update: {
+    method: 'post',
+    path: '/update/{id}',
+    description: 'add doctor',
+    uploadpayload: {
+      output: 'stream',
+      parse: true,
+      multipart: true,
+      allow: 'multipart/form-data',
+    },
+    permissions: ["admin"],
+  },
+  archive: {
+    method: 'DELETE',
+    path: '/{id}',
+    description: 'Archive the doctor',
+    permissions: ["admin"],
+  },
 };
 
 function register(app) {
