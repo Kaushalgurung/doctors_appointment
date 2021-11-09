@@ -3,7 +3,6 @@ require('dotenv').config('/.env');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const DataUtils  = require('../../helpers/data');
-const { rawListeners } = require('npmlog');
 
 const Admin= {
     async add(data) {
@@ -45,7 +44,10 @@ const Admin= {
                 const res = await this.login({email: user.email, password: oldPassword});
                 const salt = parseInt(process.env.TOKEN_KEY);
                 encrypted_password = await bcrypt.hash(newPassword, salt);
-                return await AdminModel.findOneAndUpdate({email: res.email},{password: encrypted_password});
+                const done = await AdminModel.findOneAndUpdate({email: decoded.email},{password: encrypted_password});
+                if(done){
+                    return {message: "Password change successfully"};
+                }
             }catch(err){
                 console.log(err);
                 throw err;
