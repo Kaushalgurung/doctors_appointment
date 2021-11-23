@@ -41,7 +41,7 @@ const Admin= {
         const user = await AdminModel.findOne({ email: decoded.email });
         if (user) {
             try{
-                const res = await this.login({email: user.email, password: oldPassword});
+                //const res = await this.login({email: user.email, password: oldPassword});
                 const salt = parseInt(process.env.TOKEN_KEY);
                 encrypted_password = await bcrypt.hash(newPassword, salt);
                 const done = await AdminModel.findOneAndUpdate({email: decoded.email},{password: encrypted_password});

@@ -54,6 +54,11 @@ const routes = {
     path: "/getbydocid/{doctor_id}",
     description: "Get appointment By doctor id",
   },
+  getProblemDoc: {
+    method: "GET",
+    path: "/problem/{id}",
+    description: "get problem file",
+  },
 };
 
 function register(app) {

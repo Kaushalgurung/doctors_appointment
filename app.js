@@ -115,7 +115,7 @@ class App {
           .code(500);
       return h
         .response({ statusCode: error.code, error: 'Server Error', message: error.message })
-        .code(error.code || 500);
+        .code(500);
     }
   }
 
